@@ -1,6 +1,9 @@
 import torch
 import torch.nn as nn
-from basic_module import BasicModule
+import sys
+import os.path as osp
+sys.path.append(osp.dirname(osp.realpath(__file__)))
+from .basic_module import BasicModule
 from typing import Callable
 from torch import Tensor
 
@@ -30,7 +33,7 @@ class ResBlock(nn.Module):
         residual = x
         out = self.block(x)
         out = out + residual                  # dont' put inplace addition here if inline activation
-        return self.activate(out)
+        return out
         
         
 class ResNet(BasicModule):

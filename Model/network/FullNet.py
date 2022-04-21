@@ -1,8 +1,12 @@
 import torch
 import torch.nn as nn
-from basic_module import BasicModule
+import sys
+import os.path as osp
+sys.path.append(osp.dirname(osp.realpath(__file__)))
+from .basic_module import BasicModule
 from typing import Callable
 from torch import Tensor
+
 
 
 class FullNet(BasicModule):
