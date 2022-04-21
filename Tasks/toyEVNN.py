@@ -69,10 +69,10 @@ def train(**kwargs):
         # ---------------training setup in each time step---------------
 
         datI = gendat(num = 8000, boundary = False, device = device)
-        datB = gendat(num = 8000, boundary = True, device = device)
-        
+        datB = gendat(num = 8000, boundary = True, device = device)  
         datI = datI.float()
         datB = datB.float()
+        
         with torch.no_grad():
             previous[0] = modelold(datI)
             previous[1] = modelold(datB)
@@ -93,7 +93,7 @@ def train(**kwargs):
 
         modelold.load_state_dict(model.state_dict())
         err = eval(model, grid, exact)
-        ENERGY = CompEnergy(model, grid)
+        ENERGY = CompEnergy(model, grid, config.type)
         energy.append(ENERGY.item())
         error.append(err.item())
         logger.info(f'The epoch is {epoch}, The energy is {ENERGY.item()},  The error is {err.item()}')
@@ -117,7 +117,8 @@ def eval(model: Callable[..., Tensor],
 
 
 def CompEnergy(model: Callable[..., Tensor], 
-            dat_i: Tensor) -> Tuple[Tensor,Tensor]:
+            dat_i: Tensor,
+            type: str) -> Tuple[Tensor,Tensor]:
     """
     Loss function for 2d Poisson equation
     -\laplacia u = 2sin(x)cos(y),    u \in \Omega
@@ -126,19 +127,23 @@ def CompEnergy(model: Callable[..., Tensor],
     Args:
         model (Callable[..., Tensor]): Network 
         dat_i (Tensor): Interior point
-        dat_b (Tensor): Boundary point
-        previous (Tuple[Tensor, Tensor]): Result from previous time step model. interior point for index 0, boundary for index 1
+        type (str): f = 1 or f = 2sinxcosx
 
     Returns:
         Tuple[Tensor,Tensor]: loss
     """
 
-    f = (2*torch.sin(dat_i[:,0])*torch.cos(dat_i[:,1])).unsqueeze_(1)
+    if type ==  'poi':
+        f = (2*torch.sin(dat_i[:,0])*torch.cos(dat_i[:,1])).unsqueeze_(1)
     dat_i.requires_grad = True
     output_i = model(dat_i)
     ux = torch.autograd.grad(outputs = output_i, inputs = dat_i, grad_outputs = torch.ones_like(output_i), retain_graph=True, create_graph=True)[0]
     # f = (2*torch.sin(dat_i[:,0])*torch.cos(dat_i[:,1])).unsqueeze_(1)
-    loss_i =  torch.mean(0.5 * torch.sum(torch.pow(ux, 2),dim=1,keepdim=True)- f*output_i)
+    
+    if type == 'poissoncycle':
+        loss_i =  torch.mean(0.5 * torch.sum(torch.pow(ux, 2),dim=1,keepdim=True)- output_i)
+    else:
+        loss_i =  torch.mean(0.5 * torch.sum(torch.pow(ux, 2),dim=1,keepdim=True)- f*output_i)
     
     return loss_i
 
