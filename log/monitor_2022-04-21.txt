@@ -1,0 +1,2 @@
+log_helper - __main__ - INFO - Test
+log_helper - __main__ - INFO - Test
