@@ -59,7 +59,8 @@ def train(**kwargs):
      # model recorder
     energy = []
     error = []
-    logger = logger_init()
+    path = osp.join(osp.dirname(osp.dirname(osp.realpath(__file__))), 'log')
+    logger = logger_init(log_dir = path)
     # -------------------------------------------------------------------------------------------------------------------------------------
 
 
