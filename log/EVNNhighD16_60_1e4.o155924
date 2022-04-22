@@ -1,0 +1,226 @@
+Loading python/3.7.3
+  Loading requirement: tcl/8.6.8 gcc/8.3.0
+user config:
+model ResNet
+functional poi
+FClayer 2
+num_blocks 3
+num_input 16
+num_oupt 1
+num_node 60
+act tanh
+load_model_path None
+pretrain None
+exact poiss2dexact.pt
+grid poiss2dgrid.pt
+method adam
+max_epoch 200
+lr 0.01
+lamda 1e-05
+lr_decay 0.7
+step_size 200
+dimension 16
+momentum 0.9
+nesterov True
+The epoch is 0, The error is 1.50308358669281 step is 200
+The epoch is 1, The error is 1.4226751327514648 step is 200
+The epoch is 2, The error is 1.3396494388580322 step is 200
+The epoch is 3, The error is 1.2858519554138184 step is 200
+The epoch is 4, The error is 1.2454758882522583 step is 200
+The epoch is 5, The error is 1.1786365509033203 step is 200
+The epoch is 6, The error is 1.1256964206695557 step is 200
+The epoch is 7, The error is 1.08009672164917 step is 200
+The epoch is 8, The error is 1.0336166620254517 step is 200
+The epoch is 9, The error is 0.9501249194145203 step is 200
+The epoch is 10, The error is 0.9419951438903809 step is 200
+The epoch is 11, The error is 0.8778879046440125 step is 200
+The epoch is 12, The error is 0.858644425868988 step is 200
+The epoch is 13, The error is 0.8078219890594482 step is 200
+The epoch is 14, The error is 0.7793852686882019 step is 200
+The epoch is 15, The error is 0.753240704536438 step is 200
+The epoch is 16, The error is 0.7433741092681885 step is 200
+The epoch is 17, The error is 0.7092792391777039 step is 200
+The epoch is 18, The error is 0.6886671185493469 step is 200
+The epoch is 19, The error is 0.6786465644836426 step is 200
+The epoch is 20, The error is 0.6458537578582764 step is 200
+The epoch is 21, The error is 0.6426539421081543 step is 200
+The epoch is 22, The error is 0.6265876293182373 step is 200
+The epoch is 23, The error is 0.5954154133796692 step is 200
+The epoch is 24, The error is 0.5951564311981201 step is 200
+The epoch is 25, The error is 0.5715456008911133 step is 200
+The epoch is 26, The error is 0.5441068410873413 step is 200
+The epoch is 27, The error is 0.5367252826690674 step is 200
+The epoch is 28, The error is 0.5173736810684204 step is 200
+The epoch is 29, The error is 0.5056783556938171 step is 200
+The epoch is 30, The error is 0.4870084822177887 step is 200
+The epoch is 31, The error is 0.4819764792919159 step is 200
+The epoch is 32, The error is 0.4667300879955292 step is 200
+The epoch is 33, The error is 0.4478508532047272 step is 200
+The epoch is 34, The error is 0.4379962980747223 step is 200
+The epoch is 35, The error is 0.4255823493003845 step is 200
+The epoch is 36, The error is 0.42450979351997375 step is 200
+The epoch is 37, The error is 0.40275320410728455 step is 200
+The epoch is 38, The error is 0.3858981430530548 step is 200
+The epoch is 39, The error is 0.38612836599349976 step is 200
+The epoch is 40, The error is 0.3736792802810669 step is 200
+The epoch is 41, The error is 0.3576100468635559 step is 200
+The epoch is 42, The error is 0.3537692129611969 step is 200
+The epoch is 43, The error is 0.3409988582134247 step is 200
+The epoch is 44, The error is 0.33627116680145264 step is 200
+The epoch is 45, The error is 0.3289255201816559 step is 200
+The epoch is 46, The error is 0.3244810104370117 step is 200
+The epoch is 47, The error is 0.3142918348312378 step is 200
+The epoch is 48, The error is 0.3067856431007385 step is 200
+The epoch is 49, The error is 0.3006366491317749 step is 200
+The epoch is 50, The error is 0.29116982221603394 step is 200
+The epoch is 51, The error is 0.29081961512565613 step is 200
+The epoch is 52, The error is 0.2769400477409363 step is 200
+The epoch is 53, The error is 0.2688840329647064 step is 200
+The epoch is 54, The error is 0.2635406255722046 step is 200
+The epoch is 55, The error is 0.2626066207885742 step is 200
+The epoch is 56, The error is 0.2656266689300537 step is 200
+The epoch is 57, The error is 0.2459576278924942 step is 200
+The epoch is 58, The error is 0.2438247799873352 step is 200
+The epoch is 59, The error is 0.23943476378917694 step is 200
+The epoch is 60, The error is 0.2326716184616089 step is 200
+The epoch is 61, The error is 0.2341422587633133 step is 200
+The epoch is 62, The error is 0.23097608983516693 step is 200
+The epoch is 63, The error is 0.22497619688510895 step is 200
+The epoch is 64, The error is 0.22070370614528656 step is 200
+The epoch is 65, The error is 0.22380602359771729 step is 200
+The epoch is 66, The error is 0.2167995274066925 step is 200
+The epoch is 67, The error is 0.2190045565366745 step is 200
+The epoch is 68, The error is 0.21082299947738647 step is 200
+The epoch is 69, The error is 0.20638608932495117 step is 200
+The epoch is 70, The error is 0.20147353410720825 step is 200
+The epoch is 71, The error is 0.19573579728603363 step is 200
+The epoch is 72, The error is 0.19419389963150024 step is 200
+The epoch is 73, The error is 0.18578556180000305 step is 200
+The epoch is 74, The error is 0.1831222027540207 step is 200
+The epoch is 75, The error is 0.17992427945137024 step is 200
+The epoch is 76, The error is 0.17992009222507477 step is 200
+The epoch is 77, The error is 0.17635291814804077 step is 200
+The epoch is 78, The error is 0.17877592146396637 step is 200
+The epoch is 79, The error is 0.168691948056221 step is 200
+The epoch is 80, The error is 0.16432668268680573 step is 200
+The epoch is 81, The error is 0.1612081527709961 step is 200
+The epoch is 82, The error is 0.15872983634471893 step is 200
+The epoch is 83, The error is 0.15458156168460846 step is 200
+The epoch is 84, The error is 0.15289868414402008 step is 200
+The epoch is 85, The error is 0.1509171724319458 step is 200
+The epoch is 86, The error is 0.14524315297603607 step is 200
+The epoch is 87, The error is 0.14362001419067383 step is 200
+The epoch is 88, The error is 0.14060717821121216 step is 200
+The epoch is 89, The error is 0.13131661713123322 step is 200
+The epoch is 90, The error is 0.12978911399841309 step is 200
+The epoch is 91, The error is 0.13501347601413727 step is 200
+The epoch is 92, The error is 0.13535423576831818 step is 200
+The epoch is 93, The error is 0.13507676124572754 step is 200
+The epoch is 94, The error is 0.12980957329273224 step is 200
+The epoch is 95, The error is 0.12104946374893188 step is 200
+The epoch is 96, The error is 0.11432765424251556 step is 200
+The epoch is 97, The error is 0.11319663375616074 step is 200
+The epoch is 98, The error is 0.11195753514766693 step is 200
+The epoch is 99, The error is 0.11204832792282104 step is 200
+The epoch is 100, The error is 0.11376876384019852 step is 200
+The epoch is 101, The error is 0.1089252457022667 step is 200
+The epoch is 102, The error is 0.10979489982128143 step is 200
+The epoch is 103, The error is 0.10533883422613144 step is 200
+The epoch is 104, The error is 0.10642136633396149 step is 200
+The epoch is 105, The error is 0.10785676538944244 step is 200
+The epoch is 106, The error is 0.09879594296216965 step is 200
+The epoch is 107, The error is 0.10388533025979996 step is 200
+The epoch is 108, The error is 0.09831248968839645 step is 200
+The epoch is 109, The error is 0.09544932097196579 step is 200
+The epoch is 110, The error is 0.09339652210474014 step is 200
+The epoch is 111, The error is 0.09672319889068604 step is 200
+The epoch is 112, The error is 0.09139909595251083 step is 200
+The epoch is 113, The error is 0.0888720154762268 step is 200
+The epoch is 114, The error is 0.08730214834213257 step is 200
+The epoch is 115, The error is 0.0883728563785553 step is 200
+The epoch is 116, The error is 0.08761300891637802 step is 200
+The epoch is 117, The error is 0.0884883925318718 step is 200
+The epoch is 118, The error is 0.08984915912151337 step is 200
+The epoch is 119, The error is 0.08846892416477203 step is 200
+The epoch is 120, The error is 0.08467460423707962 step is 200
+The epoch is 121, The error is 0.08475304394960403 step is 200
+The epoch is 122, The error is 0.08079024404287338 step is 200
+The epoch is 123, The error is 0.08070224523544312 step is 200
+The epoch is 124, The error is 0.07976478338241577 step is 200
+The epoch is 125, The error is 0.07590243220329285 step is 200
+The epoch is 126, The error is 0.07277204096317291 step is 200
+The epoch is 127, The error is 0.07110196352005005 step is 200
+The epoch is 128, The error is 0.07418307662010193 step is 200
+The epoch is 129, The error is 0.07378232479095459 step is 200
+The epoch is 130, The error is 0.07440672814846039 step is 200
+The epoch is 131, The error is 0.07208583503961563 step is 200
+The epoch is 132, The error is 0.07199673354625702 step is 200
+The epoch is 133, The error is 0.06999070942401886 step is 200
+The epoch is 134, The error is 0.0689927488565445 step is 200
+The epoch is 135, The error is 0.06581542640924454 step is 200
+The epoch is 136, The error is 0.06576626747846603 step is 200
+The epoch is 137, The error is 0.06413369625806808 step is 200
+The epoch is 138, The error is 0.06401751935482025 step is 200
+The epoch is 139, The error is 0.0645904690027237 step is 200
+The epoch is 140, The error is 0.06406483799219131 step is 200
+The epoch is 141, The error is 0.0632985308766365 step is 200
+The epoch is 142, The error is 0.062290776520967484 step is 200
+The epoch is 143, The error is 0.06197880953550339 step is 200
+The epoch is 144, The error is 0.060644250363111496 step is 200
+The epoch is 145, The error is 0.06400478631258011 step is 200
+The epoch is 146, The error is 0.06203374266624451 step is 200
+The epoch is 147, The error is 0.0566956028342247 step is 200
+The epoch is 148, The error is 0.056333452463150024 step is 200
+The epoch is 149, The error is 0.058860938996076584 step is 200
+The epoch is 150, The error is 0.059692248702049255 step is 200
+The epoch is 151, The error is 0.058983635157346725 step is 200
+The epoch is 152, The error is 0.05290988087654114 step is 200
+The epoch is 153, The error is 0.05301373451948166 step is 200
+The epoch is 154, The error is 0.050262629985809326 step is 200
+The epoch is 155, The error is 0.050158340483903885 step is 200
+The epoch is 156, The error is 0.04712352156639099 step is 200
+The epoch is 157, The error is 0.045362114906311035 step is 200
+The epoch is 158, The error is 0.04794923961162567 step is 200
+The epoch is 159, The error is 0.049015820026397705 step is 200
+The epoch is 160, The error is 0.0474252924323082 step is 200
+The epoch is 161, The error is 0.04683416336774826 step is 200
+The epoch is 162, The error is 0.04576854780316353 step is 200
+The epoch is 163, The error is 0.045275650918483734 step is 200
+The epoch is 164, The error is 0.04503824561834335 step is 200
+The epoch is 165, The error is 0.043272778391838074 step is 200
+The epoch is 166, The error is 0.04140620306134224 step is 200
+The epoch is 167, The error is 0.038725655525922775 step is 200
+The epoch is 168, The error is 0.03797001764178276 step is 200
+The epoch is 169, The error is 0.036277346312999725 step is 200
+The epoch is 170, The error is 0.0380842462182045 step is 200
+The epoch is 171, The error is 0.03529288247227669 step is 200
+The epoch is 172, The error is 0.03606310114264488 step is 200
+The epoch is 173, The error is 0.03576420992612839 step is 200
+The epoch is 174, The error is 0.03619755059480667 step is 200
+The epoch is 175, The error is 0.0348982959985733 step is 200
+The epoch is 176, The error is 0.035678356885910034 step is 200
+The epoch is 177, The error is 0.0337616428732872 step is 200
+The epoch is 178, The error is 0.034943245351314545 step is 200
+The epoch is 179, The error is 0.03578857332468033 step is 200
+The epoch is 180, The error is 0.03438674286007881 step is 200
+The epoch is 181, The error is 0.031876370310783386 step is 200
+The epoch is 182, The error is 0.03411705791950226 step is 200
+The epoch is 183, The error is 0.032744958996772766 step is 200
+The epoch is 184, The error is 0.03279852494597435 step is 200
+The epoch is 185, The error is 0.03176905959844589 step is 200
+The epoch is 186, The error is 0.031520336866378784 step is 200
+The epoch is 187, The error is 0.032116685062646866 step is 200
+The epoch is 188, The error is 0.03230099752545357 step is 200
+The epoch is 189, The error is 0.03274467960000038 step is 200
+The epoch is 190, The error is 0.03222484514117241 step is 200
+The epoch is 191, The error is 0.033331383019685745 step is 200
+The epoch is 192, The error is 0.03449697047472 step is 200
+The epoch is 193, The error is 0.033115044236183167 step is 200
+The epoch is 194, The error is 0.03360598534345627 step is 200
+The epoch is 195, The error is 0.034651562571525574 step is 200
+The epoch is 196, The error is 0.03549627959728241 step is 200
+The epoch is 197, The error is 0.035068150609731674 step is 200
+The epoch is 198, The error is 0.03440040722489357 step is 200
+The epoch is 199, The error is 0.0368892066180706 step is 200
+The final error is : 0.03623001649975777
+There are 23041 parameters

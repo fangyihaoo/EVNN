@@ -1,4 +1,5 @@
 /*.o*
+/checkpoints/Heat/*.pt
 
 # General
 .DS_Store

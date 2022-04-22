@@ -26,7 +26,7 @@ class DefaultConfig(object):
 
         self.max_epoch = 50000 # number of epoch
 
-        self.lr = 1e-3 # initial learning rate
+        self.lr = 1e-2 # initial learning rate
         
         self.lr_decay=1e-5
         

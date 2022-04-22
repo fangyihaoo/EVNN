@@ -55,8 +55,9 @@ def train(**kwargs):
     optimizer = torch.optim.Adam(model.parameters(), lr = config.lr)
     scheduler = StepLR(optimizer, step_size= config.step_size, gamma = config.lr_decay)
     error = []
+    log_name = 'Dritz_' + config.type
     path = osp.join(osp.dirname(osp.dirname(osp.realpath(__file__))), 'log')
-    logger = logger_init(log_dir = path)
+    logger = logger_init(log_file_name = log_name, log_dir = path)
     # -------------------------------------------------------------------------------------------------------------------------------------
 
     # -------------------------------------------------------------------------------------------------------------------------------------

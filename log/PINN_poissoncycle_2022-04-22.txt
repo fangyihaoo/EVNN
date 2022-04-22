@@ -1,0 +1,10 @@
+toyPinn - utils.log_helper - INFO - Epoch: 00000   Error: 1.30659
+toyPinn - utils.log_helper - INFO - Epoch: 05000   Error: 0.01411
+toyPinn - utils.log_helper - INFO - Epoch: 10000   Error: 0.00377
+toyPinn - utils.log_helper - INFO - Epoch: 15000   Error: 0.00377
+toyPinn - utils.log_helper - INFO - Epoch: 20000   Error: 0.00377
+toyPinn - utils.log_helper - INFO - Epoch: 25000   Error: 0.00377
+toyPinn - utils.log_helper - INFO - Epoch: 30000   Error: 0.00377
+toyPinn - utils.log_helper - INFO - Epoch: 35000   Error: 0.00377
+toyPinn - utils.log_helper - INFO - Epoch: 40000   Error: 0.00377
+toyPinn - utils.log_helper - INFO - Epoch: 45000   Error: 0.00377

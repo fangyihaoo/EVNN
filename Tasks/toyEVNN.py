@@ -59,8 +59,9 @@ def train(**kwargs):
      # model recorder
     energy = []
     error = []
+    log_name = 'EVNN_' + config.type
     path = osp.join(osp.dirname(osp.dirname(osp.realpath(__file__))), 'log')
-    logger = logger_init(log_dir = path)
+    logger = logger_init(log_file_name = log_name, log_dir = path)
     # -------------------------------------------------------------------------------------------------------------------------------------
 
 
