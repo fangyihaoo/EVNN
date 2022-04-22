@@ -24,11 +24,13 @@ class DefaultConfig(object):
 
         self.grid = 'poiss2dgrid.pt'
 
-        self.max_epoch = 500 # number of epoch
+        self.max_epoch = 50000 # number of epoch
 
-        self.lr = 1e-1 # initial learning rate
-
-        self.max_iter = 100
+        self.lr = 1e-3 # initial learning rate
+        
+        self.lr_decay=1e-5
+        
+        self.step_size = 5000
     
     def _parse(self, kwargs):
         '''
