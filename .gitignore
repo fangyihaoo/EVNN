@@ -1,6 +1,6 @@
 /*.o*
 /checkpoints/Heat/*.pt
-
+/checkpoints/AllenCahn/*.pt
 # General
 .DS_Store
 .AppleDouble

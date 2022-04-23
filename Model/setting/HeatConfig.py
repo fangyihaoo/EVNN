@@ -29,6 +29,10 @@ class DefaultConfig(object):
         self.max_iter = 300
         
         self.pretrain = "heatInitiliationLBFGS.pt"
+        
+        self.step_size = 5000
+        
+        self.lr_decay = 0.7
     
     def _parse(self, kwargs):
         '''

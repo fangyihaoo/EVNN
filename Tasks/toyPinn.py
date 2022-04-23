@@ -50,7 +50,6 @@ def train(**kwargs):
     # model initialization
     model = ResidualNet.ResNet(**keys)
     model.to(device)
-    model = model.to(torch.float)
     model.apply(weight_init)
     optimizer = torch.optim.Adam(model.parameters(), lr = config.lr)
     scheduler = StepLR(optimizer, step_size= config.step_size, gamma = config.lr_decay)
@@ -67,8 +66,6 @@ def train(**kwargs):
         optimizer.zero_grad()
         datI = gendat(num = 1000, boundary = False, device = device)
         datB = gendat(num = 250, boundary = True, device = device)
-        datI = datI.float()
-        datB = datB.float()
         loss = losfunc(model, datI, datB)
         loss.backward()
         optimizer.step()

@@ -40,10 +40,8 @@ def train(**kwargs):
     model = ResidualNet.ResNet(**keys)
     model.to(device)
     model.apply(weight_init)
-    model.to(torch.float)
     modelold = ResidualNet.ResNet(**keys)
     modelold.to(device)
-    modelold.to(torch.float)
     previous = 0
     modelold.load_state_dict(model.state_dict())
     
@@ -55,7 +53,7 @@ def train(**kwargs):
     for p in model.parameters():
         prev_par.append(torch.zeros_like(p))
     timestamp = [20*i  for i in range(1, 10)]
-    MinError = float('inf')
+    # MinError = float('inf')
     # -------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -70,7 +68,7 @@ def train(**kwargs):
         # --------------Optimization Loop at each time step--------------
         while True:
             optimizer.zero_grad()
-            datI = gendat(num = 10000, d = config.dimension, device = device)
+            datI = gendat(num = config.num_sample, d = config.dimension, device = device)
             with torch.no_grad():
                 previous = modelold(datI)
             loss = losfunc(model, datI, previous)
@@ -91,8 +89,8 @@ def train(**kwargs):
     l2 relative error
     """
     datI = gendat(num = 40000, d = config.dimension, device = device)
-    print(f'The final error is : {eval(model, datI, PoiHighExact(datI))}')
-    print(f'There are {count_parameters(modelold)} parameters')
+    logger.info(f'The final error is : {eval(model, datI, PoiHighExact(datI))}')
+    logger.info(f'There are {count_parameters(modelold)} parameters')
 
     
 
@@ -124,3 +122,10 @@ def WeightDiff(model: Callable[..., Tensor],
     for p1 in model.parameters():
         previous.append(p1.detach().clone())
     return torch.sqrt(reg), previous
+
+
+if __name__=='__main__':
+    import fire
+    fire.Fire()
+    # path = osp.dirname(osp.dirname(osp.realpath(__file__)))
+    # print(path)

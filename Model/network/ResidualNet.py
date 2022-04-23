@@ -33,7 +33,7 @@ class ResBlock(nn.Module):
         residual = x
         out = self.block(x)
         out = out + residual                  # dont' put inplace addition here if inline activation
-        return out
+        return self.activate(out)
         
         
 class ResNet(BasicModule):

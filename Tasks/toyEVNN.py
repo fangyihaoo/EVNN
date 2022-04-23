@@ -23,8 +23,6 @@ def train(**kwargs):
     gridpath = osp.join(osp.dirname(osp.dirname(osp.realpath(__file__))), 'data', 'Poisson', config.grid)
     grid = torch.load(gridpath, map_location = device)
     exact = torch.load(exactpath, map_location = device)
-    # exact = exact.double()
-    # grid = grid.double()
     # -------------------------------------------------------------------------------------------------------------------------------------
 
     DATASET_MAP = {'poi': poisson,
@@ -50,10 +48,8 @@ def train(**kwargs):
     model = ResidualNet.ResNet(**keys)
     model.to(device)
     model.apply(weight_init)
-    model.to(torch.float)
     modelold = ResidualNet.ResNet(**keys)
     modelold.to(device)
-    modelold.to(torch.float)
     previous = [0, 0]
     modelold.load_state_dict(model.state_dict())
      # model recorder
@@ -72,8 +68,6 @@ def train(**kwargs):
 
         datI = gendat(num = 8000, boundary = False, device = device)
         datB = gendat(num = 8000, boundary = True, device = device)  
-        datI = datI.float()
-        datB = datB.float()
         
         with torch.no_grad():
             previous[0] = modelold(datI)

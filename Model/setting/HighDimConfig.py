@@ -8,6 +8,8 @@ class DefaultConfig(object):
 
 
         self.FClayer = 2 
+        
+        self.num_sample = 1000
 
         self.num_blocks = 1
 

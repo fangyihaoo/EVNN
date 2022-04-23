@@ -13,7 +13,7 @@ This part of code comes from "https://github.com/CW-Huang/CP-Flow"
 
 _scaling_min = 0.001
 
-torch.set_default_dtype(torch.float64)
+# torch.set_default_dtype(torch.float64)
 
 def unsqueeze(x):
     return x.unsqueeze(0).unsqueeze(-1).detach()

@@ -174,18 +174,33 @@ def heat():
     ax.scatter(interval, energyLBFGS[0:100], alpha=0.70, color=color,  label=categories, marker='^')
     ax.set_xlabel('Time', fontsize=25)
     ax.set_ylabel('Free Energy', fontsize=25)
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
     ax.grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
     ax.tick_params(axis='both', which='major', labelsize=25)
-    plt.xlim([0, 1.1])
+    plt.xlim([0, 1.01])
     # ax.legend(categories, prop={"size":10})
-    plt.savefig(osp.join(osp.dirname(osp.dirname(osp.realpath(__file__))), 'Plots', 'energy.png'), pad_inches = 0.1, bbox_inches='tight')
+    plt.savefig(osp.join(osp.dirname(osp.dirname(osp.realpath(__file__))), 'Plots', 'HeatEnergy.png'), pad_inches = 0.1, bbox_inches='tight')
 
 
 
 def AllenCahn():
-    pass
+    energyLBFGS = torch.load('../data/AllenCahn/energyLBFGS.pt', map_location=torch.device('cpu'))
+    energyLBFGS = [element * 4 for element in energyLBFGS]
+    energyFEA = torch.load('../data/AllenCahn/EnergyFEA.pt', map_location=torch.device('cpu'))
+    interval = torch.arange(1, 51)
+    interval = [ele * 0.01 for ele in interval]
+    color = ['#2300A8', '#AF7AC5', '#00A658']
+    fig, ax = plt.subplots(figsize=(10, 5))
+    categories = ['EVNN', 'Finite Element']
+    ax.scatter(interval, energyLBFGS[1:51], alpha=0.70, color=color[0],  label=categories[0], marker='^')
+    # ax.scatter(interval, energy, alpha=0.70, color=color[1],  label=categories[0], marker=',')
+    ax.scatter(interval, energyFEA[1:51], alpha=0.70, color = color[2], label=categories[1])
+    ax.set_xlabel('Time', fontsize=20)
+    ax.set_ylabel('Free Energy', fontsize=20)
+    ax.grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
+    ax.legend(categories, prop={"size":20})
+    ax.tick_params(axis='both', which='major', labelsize=20)
+    plt.savefig(osp.join(osp.dirname(osp.dirname(osp.realpath(__file__))), 'Plots', 'AllenCahnEnergy.png'), pad_inches = 0.1, bbox_inches='tight')
+
 
 
 

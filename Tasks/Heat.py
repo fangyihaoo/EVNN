@@ -35,9 +35,6 @@ def train(**kwargs):
     lb = torch.cat((torch.tensor([0.]).repeat(1000)[:,None], torch.linspace(0, 2, steps=1000)[:,None]), dim=1)
     data = torch.cat((tb, bb, rb, lb), dim=0)
     datB = data.to(device) 
-
-    datI = datI.float()
-    datB = datB.float()
     # -------------------------------------------------------------------------------------------------------------------------------------
     # model configuration
     ACTIVATION_MAP = {'relu' : nn.ReLU(),
@@ -60,10 +57,8 @@ def train(**kwargs):
     model = ResidualNet.ResNet(**keys)
     model.to(device)
     model.apply(weight_init)
-    model.to(torch.float)
     modelold = ResidualNet.ResNet(**keys)
     modelold.to(device)
-    modelold.to(torch.float)
     energy_list = []
     timestamp = list(range(1,31)) + list(range(40, 101, 10))
     previous = []
