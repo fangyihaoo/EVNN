@@ -22,4 +22,6 @@ module load python
 
 # python ./Tasks/Heat.py train 
 
-python ./Tasks/AllenCahn.py train 
+# python ./Tasks/AllenCahn.py train 
+
+python ./Tasks/Fokker.py train

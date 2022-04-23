@@ -1,6 +1,9 @@
 /*.o*
 /checkpoints/Heat/*.pt
 /checkpoints/AllenCahn/*.pt
+/checkpoints/Fokker/*.pt
+/data/Fokker/*.pt
+
 # General
 .DS_Store
 .AppleDouble

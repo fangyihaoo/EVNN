@@ -271,3 +271,26 @@ def Heat(model: Callable[...,Tensor],
     loss_p += 50*torch.mean(torch.pow(output_b - previous[1], 2)) * 4
 
     return loss_i + 500*loss_b + loss_p, loss_i
+
+def FokkerPlanck(phi: Tensor,
+                 coor: Tensor,
+                 rho: Tensor,
+                 lgdet: Tensor,
+                 V:Tensor
+                 ) -> Tensor:
+    """Loss function for Fokker Planck equation
+
+    Args:
+        phi (Tensor): The convex potential of the normalizing flow [N, d]
+        coor (Tensor): Input data [N, d]
+        rho (Tensor): Estimated function [N, 1] 
+        lgdet (Tensor): Log determinant [1, N]
+        V (Tensor): density [N, 1]
+
+    Returns:
+        loss
+    """
+    Cap_Phi = 50*torch.mean(rho*torch.sum((phi - coor)**2, dim = 1, keepdim = True)) # captical phi
+    vol = torch.mean(rho * (torch.log(rho) - lgdet.unsqueeze_(-1) + V)) # second part
+    
+    return Cap_Phi + vol, vol

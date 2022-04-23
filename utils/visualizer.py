@@ -14,7 +14,17 @@ import matplotlib.ticker as ticker
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from mpl_toolkits.mplot3d import Axes3D 
 
-
+class OOMFormatter(ticker.ScalarFormatter):
+    def __init__(self, order=0, fformat="%1.1f", offset=True, mathText=True):
+        self.oom = order
+        self.fformat = fformat
+        ticker.ScalarFormatter.__init__(self,useOffset=offset,useMathText=mathText)
+    def _set_order_of_magnitude(self):
+        self.orderOfMagnitude = self.oom
+    def _set_format(self, vmin=None, vmax=None):
+        self.format = self.fformat
+        if self._useMathText:
+            self.format = r'$\mathdefault{%s}$' % self.format
 
 def toy():
     
@@ -96,17 +106,6 @@ def toy():
 
 def heat():
     
-    class OOMFormatter(ticker.ScalarFormatter):
-        def __init__(self, order=0, fformat="%1.1f", offset=True, mathText=True):
-            self.oom = order
-            self.fformat = fformat
-            ticker.ScalarFormatter.__init__(self,useOffset=offset,useMathText=mathText)
-        def _set_order_of_magnitude(self):
-            self.orderOfMagnitude = self.oom
-        def _set_format(self, vmin=None, vmax=None):
-            self.format = self.fformat
-            if self._useMathText:
-                self.format = r'$\mathdefault{%s}$' % self.format
     config = HeatConfig.DefaultConfig()
     ACTIVATION_MAP = {'relu' : nn.ReLU(),
                     'tanh' : nn.Tanh(),
@@ -201,7 +200,21 @@ def AllenCahn():
     ax.tick_params(axis='both', which='major', labelsize=20)
     plt.savefig(osp.join(osp.dirname(osp.dirname(osp.realpath(__file__))), 'Plots', 'AllenCahnEnergy.png'), pad_inches = 0.1, bbox_inches='tight')
 
-
+def DensityPlot(x, y, rho, t, path):
+    _, ax = plt.subplots(figsize=(10, 10))
+    h = ax.scatter(x, y, c = rho, alpha=1, cmap= 'viridis',  marker='o', s=3.5)
+    ax.grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.2)
+    xmin, xmax = np.min(x), np.max(x)
+    ymin, ymax = np.min(y), np.max(y)
+    divider = make_axes_locatable(ax)
+    cax = divider.append_axes("right", size="5%", pad=0.05)
+    plt.colorbar(h, cax=cax, format=OOMFormatter(-1, mathText=False))
+    ax.set_xlim([xmin-0.1, xmax+0.1])
+    ax.set_ylim([ymin-0.1, ymax+0.1])
+    ax.tick_params(axis='both', which='major', labelsize=16)
+    plt.savefig(path + f'fokker2d{t}.png', pad_inches = 0.05, bbox_inches='tight')
+    plt.show()
+    plt.close()
 
 
 if __name__ == "__main__":
