@@ -20,7 +20,7 @@ class DefaultConfig(object):
 
         # self.lr = 1e-2 # initial learning rate
 
-        self.max_iter = 40
+        self.max_iter = 20
         
         self.symm_act_first = True
         

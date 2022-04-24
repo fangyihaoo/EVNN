@@ -5,9 +5,9 @@ sys.path.append(osp.dirname(osp.dirname(osp.abspath(__file__))))
 import torch
 import torch.nn as nn
 import numpy as np
-from Model import HeatConfig
-from Model import ResidualNet
-
+from Model import HeatConfig, FokkerConfig
+from Model import ResidualNet, NormalFlow
+from utils import MulNormal
 
 from matplotlib import pyplot as plt
 import matplotlib.ticker as ticker
@@ -200,24 +200,77 @@ def AllenCahn():
     ax.tick_params(axis='both', which='major', labelsize=20)
     plt.savefig(osp.join(osp.dirname(osp.dirname(osp.realpath(__file__))), 'Plots', 'AllenCahnEnergy.png'), pad_inches = 0.1, bbox_inches='tight')
 
-def DensityPlot(x, y, rho, t, path):
+def DensityPlot2d(x, y, rho, t, path):
     _, ax = plt.subplots(figsize=(10, 10))
-    h = ax.scatter(x, y, c = rho, alpha=1, cmap= 'viridis',  marker='o', s=3.5)
-    ax.grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.2)
+    h = ax.scatter(x, y, c = rho, alpha=1, cmap= 'viridis',  marker='o', s=35)
+    ax.grid(color='grey', linestyle='-', linewidth=0.25)
     xmin, xmax = np.min(x), np.max(x)
     ymin, ymax = np.min(y), np.max(y)
     divider = make_axes_locatable(ax)
     cax = divider.append_axes("right", size="5%", pad=0.05)
-    plt.colorbar(h, cax=cax, format=OOMFormatter(-1, mathText=False))
+    plt.colorbar(h, cax=cax, format=OOMFormatter(-1, mathText=False)).ax.yaxis.offsetText.set_fontsize(30)
+    plt.tick_params(labelsize=30)
     ax.set_xlim([xmin-0.1, xmax+0.1])
     ax.set_ylim([ymin-0.1, ymax+0.1])
-    ax.tick_params(axis='both', which='major', labelsize=16)
+    ax.tick_params(axis='both', which='major', labelsize=30)
     plt.savefig(path + f'fokker2d{t}.png', pad_inches = 0.05, bbox_inches='tight')
+    plt.close()
+
+
+def fokker2d():
+    
+    x = torch.linspace(-3, 3, 101)
+    y = torch.linspace(-3, 3, 101)
+    X, Y = torch.meshgrid(x, y)
+    coor = torch.cat((X.flatten()[:, None], Y.flatten()[:, None]), dim=1)
+    mu0 = torch.tensor([0, 0])
+    sigma0 = torch.tensor([[1 , 0], [0, 1]])
+    rho = MulNormal(mu0, sigma0, coor)
+    path = osp.join(osp.dirname(osp.dirname(osp.realpath(__file__))), 'Plots', '')
+    DensityPlot2d(coor.numpy()[:,0], coor.numpy()[:,1], rho.numpy().flatten(), 0, path)
+    data_path = osp.join(osp.dirname(osp.dirname(osp.realpath(__file__))), 'data', 'Fokker2d', '')
+    
+    for i in [10, 50, 100]:
+        coor = torch.load(data_path + f'coor{i}.pt', map_location=torch.device('cpu'))
+        rho = torch.load(data_path + f'rho{i}.pt', map_location=torch.device('cpu'))
+        DensityPlot2d(coor.numpy()[:,0], coor.numpy()[:,1], rho.numpy().flatten(), i, path)
+        
+    relativeerror2d = torch.load(data_path + 'l2RelativeError.pt', map_location=torch.device('cpu'))
+    abserror2d = torch.load(data_path + 'l2AbsError.pt', map_location=torch.device('cpu'))
+    
+    _, ax = plt.subplots(1, 1, figsize=(8, 4))
+    interval = list(range(1,101))
+    interval = [0.01*ele for ele in interval]
+    ax.set_yscale('log')
+    ax.plot(interval, relativeerror2d,  color= '#EE82EE' )
+    ax.grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
+    ax.set_xlabel('time', fontsize = 16)
+    ax.set_ylabel('L2 Relative Error', fontsize = 16)
+    ax.tick_params(axis='both', which='major', labelsize=15)
+    plt.savefig(path + 'Relative2d.png', pad_inches = 0.05, bbox_inches='tight')
     plt.show()
     plt.close()
+
+    _, ax = plt.subplots(1, 1, figsize=(8, 4))
+    interval = list(range(1,101))
+    interval = [0.01*ele for ele in interval]
+    ax.set_yscale('log')
+    ax.plot(interval, abserror2d,  color= '#EE82EE' )
+    ax.grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
+    ax.set_xlabel('time', fontsize = 16)
+    ax.set_ylabel('L2 Absolute Error', fontsize = 16)
+    ax.tick_params(axis='both', which='major', labelsize=15)
+    plt.savefig(path + 'Absolute2d.png', pad_inches = 0.05, bbox_inches='tight')
+    plt.show()
+    plt.close()
+
+
+
+
 
 
 if __name__ == "__main__":
     # toy()
     # heat()
-    AllenCahn()
+    # AllenCahn()
+    fokker2d()

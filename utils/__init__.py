@@ -4,4 +4,3 @@ from .lossfunc import PoiLoss, PoiHighLoss, AllenCahnW, HeatPINN, PoissPINN, Poi
 from .gen_exact import PoiHighExact
 from .parameter import count_parameters, weight_init
 from .helper import V, MulNormal
-from .visualizer import DensityPlot

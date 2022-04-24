@@ -83,18 +83,17 @@ def train(**kwargs):
         optimizer.step(closure)
 
         with torch.no_grad():
-
             phi, lgdet = flow.forward_transform(coor)
-            energy = FokkerPlanck(phi, coor, rho, lgdet, V(phi, mu, sigma))[1]
-            ENERGY.append(energy.item())
+            # energy = FokkerPlanck(phi, coor, rho, lgdet, V(phi, mu, sigma))[1]
+            # ENERGY.append(energy.item())
         
         coor = phi
         coor = coor.detach()
-        lgdet = lgdet.detach()
+        lgdet = lgdet.unsqueeze_(-1).detach()
         rho = rho / (torch.exp(lgdet) + 1e-8)
 
-        torch.save(rho, path + f'coor{epoch + 1}.pt')
-        torch.save(coor, path + f'rho{epoch + 1}.pt')
+        torch.save(coor, path + f'coor{epoch + 1}.pt')
+        torch.save(rho, path + f'rho{epoch + 1}.pt')
         coor =  coor.cpu()
         act_val = MulNormal(mt, sigt, coor)
         act_val = act_val.to(device)
@@ -106,7 +105,8 @@ def train(**kwargs):
         logger.info(f'in epoch {epoch}, the L2 absolute error is {err.item()}, the L2 relative error is {relerr.item()}')
         flow.load_state_dict(IDENTICAL.state_dict())
         coor = coor.to(device)
-
+    torch.save(abserror, path + 'l2AbsError.pt')
+    torch.save(relativeerror, path + 'l2RelativeError.pt')
     # --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 

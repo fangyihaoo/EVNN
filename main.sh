@@ -24,4 +24,4 @@ module load python
 
 # python ./Tasks/AllenCahn.py train 
 
-python ./Tasks/Fokker.py train
+python ./Tasks/Fokker2d.py train

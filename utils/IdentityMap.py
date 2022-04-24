@@ -55,8 +55,8 @@ def FokkerPretrain(model):
     
 def main():
     FokkerPretrain(IDENTICAL)
-    # path = osp.join(osp.dirname(osp.dirname(osp.realpath(__file__))), 'checkpoints', 'Fokker', 'IDENTICAL.pt')
-    # torch.save(IDENTICAL.state_dict(), path)
+    path = osp.join(osp.dirname(osp.dirname(osp.realpath(__file__))), 'checkpoints', 'Fokker', 'IDENTICAL.pt')
+    torch.save(IDENTICAL.state_dict(), path)
 
 if __name__ == "__main__":
     main()
