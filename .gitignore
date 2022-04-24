@@ -3,6 +3,7 @@
 /checkpoints/AllenCahn/*.pt
 /checkpoints/Fokker/*.pt
 /data/Fokker2d/*.pt
+/data/Porus/*.pt
 
 # General
 .DS_Store
