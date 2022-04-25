@@ -4,7 +4,7 @@
 /checkpoints/Fokker/*.pt
 /data/Fokker2d/*.pt
 /data/Porus/*.pt
-
+/data/AllenCahn/Ph*
 # General
 .DS_Store
 .AppleDouble

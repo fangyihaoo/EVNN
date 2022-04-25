@@ -21,7 +21,7 @@ def main(**kwargs):
     path = osp.join(osp.dirname(osp.dirname(osp.realpath(__file__))), 'data', 'AllenCahn', 'PhaseFieldGrid.pt')
     grid = torch.load(path, map_location = device)
     grid = grid.float()
-    for i in [1, 3, 10, 30]:
+    for i in [1, 5, 3, 10, 30]:
         path = osp.join(osp.dirname(osp.dirname(osp.realpath(__file__))), 'checkpoints', 'AllenCahn', f'PhaseField{i}.pt')
         model.load_state_dict(torch.load(path,  map_location=torch.device('cpu')))
         sol = model(grid)
@@ -31,8 +31,6 @@ def main(**kwargs):
         loc = osp.join(osp.dirname(osp.dirname(osp.realpath(__file__))), 'data', 'AllenCahn','')
         savemat(loc + 'PhSol' + str(i), sol)
         
-        
-
 
 if __name__ == "__main__":
     
