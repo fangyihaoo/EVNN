@@ -108,7 +108,7 @@ def pretrain_Allen(**kwargs):
     optimizer = torch.optim.Adam(model.parameters(), lr = config.lr)
     scheduler = StepLR(optimizer, step_size=config.step_size, gamma=config.lr_decay)
     
-    for _ in range(config.max_epoch):
+    for _ in range(config.max_epoch+1):
         optimizer.zero_grad()
         datI = allencahn(num = 2500, boundary = False, device = device)
         datB = allencahn(num = 500, boundary = True, device = device)

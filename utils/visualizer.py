@@ -272,5 +272,5 @@ def fokker2d():
 if __name__ == "__main__":
     # toy()
     # heat()
-    # AllenCahn()
-    fokker2d()
+    AllenCahn()
+    # fokker2d()
