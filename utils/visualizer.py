@@ -188,16 +188,16 @@ def AllenCahn():
     interval = torch.arange(1, 51)
     interval = [ele * 0.01 for ele in interval]
     color = ['#2300A8', '#AF7AC5', '#00A658']
-    fig, ax = plt.subplots(figsize=(10, 5))
+    fig, ax = plt.subplots(figsize=(15, 5))
     categories = ['EVNN', 'Finite Element']
     ax.scatter(interval, energyLBFGS[1:51], alpha=0.70, color=color[0],  label=categories[0], marker='^')
     # ax.scatter(interval, energy, alpha=0.70, color=color[1],  label=categories[0], marker=',')
     ax.scatter(interval, energyFEA[1:51], alpha=0.70, color = color[2], label=categories[1])
-    ax.set_xlabel('Time', fontsize=20)
-    ax.set_ylabel('Free Energy', fontsize=20)
+    ax.set_xlabel('Time', fontsize=25)
+    ax.set_ylabel('Free Energy', fontsize=25)
     ax.grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
     ax.legend(categories, prop={"size":20})
-    ax.tick_params(axis='both', which='major', labelsize=20)
+    ax.tick_params(axis='both', which='major', labelsize=25)
     plt.savefig(osp.join(osp.dirname(osp.dirname(osp.realpath(__file__))), 'Plots', 'AllenCahnEnergy.png'), pad_inches = 0.1, bbox_inches='tight')
 
 def DensityPlot2d(x, y, rho, t, path):

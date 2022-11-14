@@ -148,6 +148,33 @@ def HeatPINN(model: Callable[..., Tensor],
     return loss
 
 
+# def PoissPINN(model: Callable[..., Tensor], 
+#               dat_i: Tensor, 
+#               dat_b: Tensor) -> Tensor:
+#     """The loss function for poisson equation with PINN
+
+#     Args:
+#         model (Callable[..., Tensor]): Network 
+#         dat_i (Tensor): Interior points
+#         dat_b (Tensor): Boundary points
+
+#     Returns:
+#         Tensor: loss
+#     """
+    
+#     bd = lambda x, y : (torch.sin(x)*torch.cos(y)).unsqueeze_(1) # for the exact solution at boundary
+    
+#     output_b = model(dat_b)
+#     f = (2*torch.sin(dat_i[:,0])*torch.cos(dat_i[:,1])).unsqueeze_(1)
+#     dat_i.requires_grad = True
+#     output_i = model(dat_i)
+#     du = torch.autograd.grad(outputs = output_i, inputs = dat_i, grad_outputs = torch.ones_like(output_i), retain_graph=True, create_graph=True)[0]
+#     ddu = torch.autograd.grad(outputs = du, inputs = dat_i, grad_outputs = torch.ones_like(du), retain_graph=True, create_graph=True)[0]
+#     loss = torch.mean(torch.pow(output_b - bd(dat_b[:,0], dat_b[:,1]), 2))
+#     loss += torch.mean(torch.pow(torch.sum(ddu, dim=1, keepdim=True) + f, 2))
+    
+#     return loss
+
 def PoissPINN(model: Callable[..., Tensor], 
               dat_i: Tensor, 
               dat_b: Tensor) -> Tensor:
@@ -169,12 +196,47 @@ def PoissPINN(model: Callable[..., Tensor],
     dat_i.requires_grad = True
     output_i = model(dat_i)
     du = torch.autograd.grad(outputs = output_i, inputs = dat_i, grad_outputs = torch.ones_like(output_i), retain_graph=True, create_graph=True)[0]
-    ddu = torch.autograd.grad(outputs = du, inputs = dat_i, grad_outputs = torch.ones_like(du), retain_graph=True, create_graph=True)[0]
+    # laplacian operator
+    s, d = dat_i.shape
+    lap = torch.zero(s)
+    for i in range(d):
+        ddu = torch.autograd.grad(outputs = du[:,i], inputs = dat_i, grad_outputs = torch.ones_like(du[:,i]), retain_graph=True, create_graph=True)[0]
+        lap += ddu[:, i]
+    lap.unsqueeze_(1)
     loss = torch.mean(torch.pow(output_b - bd(dat_b[:,0], dat_b[:,1]), 2))
-    loss += torch.mean(torch.pow(torch.sum(ddu, dim=1, keepdim=True) + f, 2))
+    loss += torch.mean(torch.pow(lap + f, 2))
     
     return loss
-        
+
+
+# def PoissCyclePINN(model: Callable[..., Tensor], 
+#                    dat_i: Tensor, 
+#                    dat_b: Tensor) -> Tensor:
+#     """The loss function for poisson equation with PINN (cycle)
+    
+#     -\nabla u = 1,   u = 1 - 0.25(x^2 + y^2)
+
+#     Args:
+#         model (Callable[..., Tensor]): Network 
+#         dat_i (Tensor): Interior points
+#         dat_b (Tensor): Boundary points
+
+#     Returns:
+#         Tensor: loss
+#     """
+    
+#     bd = lambda x, y : (1 - 0.25*(x**2 + y**2)).unsqueeze_(1) # for the exact solution at boundary
+    
+#     output_b = model(dat_b)
+#     dat_i.requires_grad = True
+#     output_i = model(dat_i)
+#     du = torch.autograd.grad(outputs = output_i, inputs = dat_i, grad_outputs = torch.ones_like(output_i), retain_graph=True, create_graph=True)[0]
+#     ddu = torch.autograd.grad(outputs = du, inputs = dat_i, grad_outputs = torch.ones_like(du), retain_graph=True, create_graph=True)[0]
+#     loss = torch.mean(torch.pow(output_b - bd(dat_b[:,0], dat_b[:,1]), 2))
+#     loss += torch.mean(torch.pow(torch.sum(ddu, dim=1, keepdim=True) + 1, 2))
+    
+#     return loss
+
 
 def PoissCyclePINN(model: Callable[..., Tensor], 
                    dat_i: Tensor, 
@@ -198,9 +260,15 @@ def PoissCyclePINN(model: Callable[..., Tensor],
     dat_i.requires_grad = True
     output_i = model(dat_i)
     du = torch.autograd.grad(outputs = output_i, inputs = dat_i, grad_outputs = torch.ones_like(output_i), retain_graph=True, create_graph=True)[0]
-    ddu = torch.autograd.grad(outputs = du, inputs = dat_i, grad_outputs = torch.ones_like(du), retain_graph=True, create_graph=True)[0]
+    # laplacian operator
+    s, d = dat_i.shape
+    lap = torch.zero(s)
+    for i in range(d):
+        ddu = torch.autograd.grad(outputs = du[:,i], inputs = dat_i, grad_outputs = torch.ones_like(du[:,i]), retain_graph=True, create_graph=True)[0]
+        lap += ddu[:, i]
+    lap.unsqueeze_(1)
     loss = torch.mean(torch.pow(output_b - bd(dat_b[:,0], dat_b[:,1]), 2))
-    loss += torch.mean(torch.pow(torch.sum(ddu, dim=1, keepdim=True) + 1, 2))
+    loss += torch.mean(torch.pow(lap + 1, 2))
     
     return loss
 
