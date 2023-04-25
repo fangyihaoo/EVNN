@@ -14,6 +14,138 @@ def L2_Reg(model1: Callable[..., Tensor],
             reg += torch.sum(torch.square(p1 - p2.detach()))
     return reg
 
+def Willmore3dLoss(model: Callable[...,Tensor], 
+         dat_i: Tensor, 
+         #dat_b : Tensor, 
+         previous: Tuple[Tensor,Tensor]) -> Tuple[Tensor,Tensor]:
+    """
+    3d Willmore flow equation: u_t = \nabla \cdot (\frac{\nabla u}{|\nabla u|}) * |\nabla u|, x \in [-2,2]^3
+    ellipsoid: x**2/1.+ y**2/0.5 + z**2/0.5 -1=0
+    I.C. u(x, 0) = signed distance function
+    B.C. homogenous \partial u/\partial \n = 0
+    Energy: \kappa^2/2, where \kappa = \nabla \cdot \frac{\nabla u}{|\nabla u|}
+    Constrain: |\nabla u| =1.
+
+
+    Args:
+        model (Callable[...,Tensor]): [description]
+        dat_i (Tensor): [description]
+        dat_b (Tensor): [description]
+        previous (Tuple[Tensor,Tensor]): [description]
+    # return two loss, for debug
+    Returns:
+        Tuple[Tensor,Tensor]: [description]
+    """
+
+    dat_i.requires_grad = True
+    output_i = model(dat_i)
+    ux = torch.autograd.grad(outputs = output_i, inputs = dat_i, grad_outputs = torch.ones_like(output_i), retain_graph=True, create_graph=True)[0]
+    #print(f'dat_i: {dat_i.shape} , output_i: {output_i.shape}, ux:{ux.shape}')
+    #ux_normlized = ux/torch.norm(ux,dim=1,keepdim=True)
+    # kappa = divergence of ux_normlized
+    s, d = dat_i.shape
+    kappa = 0.
+    for i in range(d):
+        #kappa += torch.autograd.grad(outputs = ux_normlized[:,i], inputs = dat_i, grad_outputs = torch.ones_like(ux_normlized[:,i]), retain_graph=True, create_graph=True)[0][...,i:i+1]
+        kappa += torch.autograd.grad(outputs = ux[:,i], inputs = dat_i, grad_outputs = torch.ones_like(ux[:,i]), retain_graph=True, create_graph=True)[0][...,i:i+1]
+    loss_i =  torch.mean(0.5 * torch.sum(torch.pow(kappa, 2),dim=1,keepdim=True)) * 64
+    
+    #penalty term
+    lam = 500
+    loss_i += lam*torch.mean(torch.pow(torch.norm(ux,dim=1,keepdim=True)-1. ,2))*64
+    #loss_b = torch.mean(torch.pow(output_b,2))
+
+    loss_p = 50*torch.mean(torch.pow(output_i - previous[0], 2)) * 64
+    #print(f'loss_i:{loss_i}, loss_p:{loss_p}')
+
+    return loss_i + loss_p, loss_i
+
+def WillmoreLoss(model: Callable[...,Tensor], 
+         dat_i: Tensor, 
+         #dat_b : Tensor, 
+         previous: Tuple[Tensor,Tensor]) -> Tuple[Tensor,Tensor]:
+    """
+    2d Willmore flow equation: u_t = \nabla \cdot (\frac{\nabla u}{|\nabla u|}) * |\nabla u|, x \in [-5,5]^2
+    shape: any shape on 2D 
+    I.C. u(x, 0) = signed distance function
+    B.C. homogenous \partial u/\partial \n = 0
+    Energy: \kappa^2/2, where \kappa = \nabla \cdot \frac{\nabla u}{|\nabla u|}
+    Constrain: |\nabla u| =1.
+
+
+    Args:
+        model (Callable[...,Tensor]): [description]
+        dat_i (Tensor): [description]
+        dat_b (Tensor): [description]
+        previous (Tuple[Tensor,Tensor]): [description]
+    # return two loss, for debug
+    Returns:
+        Tuple[Tensor,Tensor]: [description]
+    """
+
+    dat_i.requires_grad = True
+    output_i = model(dat_i)
+    #output_b = model(dat_b)
+    ux = torch.autograd.grad(outputs = output_i, inputs = dat_i, grad_outputs = torch.ones_like(output_i), retain_graph=True, create_graph=True)[0]
+    #print(f'dat_i: {dat_i.shape} , output_i: {output_i.shape}, ux:{ux.shape}')
+    ux_normlized = ux/torch.norm(ux,dim=1,keepdim=True)
+    # kappa = divergence of ux_normlized
+    s, d = dat_i.shape
+    kappa = 0.
+    for i in range(d):
+        #kappa += torch.autograd.grad(outputs = ux_normlized[:,i], inputs = dat_i, grad_outputs = torch.ones_like(ux_normlized[:,i]), retain_graph=True, create_graph=True)[0][...,i:i+1]
+        kappa += torch.autograd.grad(outputs = ux[:,i], inputs = dat_i, grad_outputs = torch.ones_like(ux[:,i]), retain_graph=True, create_graph=True)[0][...,i:i+1]
+    loss_i =  torch.mean(0.5 * torch.sum(torch.pow(kappa, 2),dim=1,keepdim=True)) * 100
+    
+    #penalty term
+    lam = 250
+    loss_i += lam*torch.mean(torch.pow(torch.norm(ux,dim=1,keepdim=True)-1. ,2))*100
+    #loss_b = torch.mean(torch.pow(output_b,2))
+
+    loss_p = 500*torch.mean(torch.pow(output_i - previous[0], 2)) * 100
+    #print(f'loss_i:{loss_i}, loss_p:{loss_p}')
+
+    return loss_i + loss_p, loss_i
+
+def MeanCurLoss(model: Callable[...,Tensor], 
+         dat_i: Tensor, 
+         #dat_b : Tensor, 
+         previous: Tuple[Tensor,Tensor]) -> Tuple[Tensor,Tensor]:
+    """
+    2d Mean curvature flow equation:
+    I.C. u(x, 0) = signed distance function
+    B.C. homogenous \partial u/\partial \n = 0
+    Energy: (\nabla u)^2
+    Constrain: |\nabla u| =1.
+
+    Args:
+        model (Callable[...,Tensor]): [description]
+        dat_i (Tensor): [description]
+        dat_b (Tensor): [description]
+        previous (Tuple[Tensor,Tensor]): [description]
+    # return two loss, for debug
+    Returns:
+        Tuple[Tensor,Tensor]: [description]
+    """
+
+    dat_i.requires_grad = True
+    output_i = model(dat_i)
+    #output_b = model(dat_b)
+    ux = torch.autograd.grad(outputs = output_i, inputs = dat_i, grad_outputs = torch.ones_like(output_i), retain_graph=True, create_graph=True)[0]
+    #print(f'dat_i: {dat_i.shape} , output_i: {output_i.shape}, ux:{ux.shape}')
+    loss_i =  torch.mean(0.5 * torch.sum(torch.pow(ux, 2),dim=1,keepdim=True)) * 100
+    
+    #penalty term
+    lam = 10
+    loss_i += lam*torch.mean(torch.pow(torch.norm(ux,dim=1,keepdim=True)-1. ,2))*100
+    #loss_b = torch.mean(torch.pow(output_b,2))
+    tau = 0.002
+    loss_p = torch.mean(torch.pow(output_i - previous[0], 2)) * 100/(2*tau)
+    #loss_p += 50*torch.mean(torch.pow(output_b - previous[1], 2)) * 4
+    #print(f'loss_i:{loss_i}, loss_p:{loss_p}')
+
+    return loss_i + loss_p, loss_i
+
 
 def PoiLoss(model: Callable[..., Tensor], 
             dat_i: Tensor, 
