@@ -1,5 +1,5 @@
 #!/bin/csh
-#$ -M yfang5@nd.edu     # Email address for job notification
+#$ -M    # Email address for job notification
 #$ -m abe               # Send mail when job begins, ends and aborts
 #$ -q gpu             
 #$ -l gpu_card=1
@@ -33,7 +33,7 @@ module load python/3.7.3
 
 python3 ./Tasks/MeanCur.py train --max_epoch=2000 --pretrain="circleInitilizationLFBGS.pt"
 
-#python3 ./Tasks/MeanCur.py train --max_epoch=1000 --pretrain="twoEllipseInitilizationLFBGS.pt"
+#python3 ./Tasks/Willmore.py train --max_epoch=1000 --pretrain="twoEllipseInitilizationLFBGS.pt"
 
 #python ./Tasks/Fokker2d.py train
 
