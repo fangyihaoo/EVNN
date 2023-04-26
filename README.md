@@ -2,10 +2,10 @@
 This repository contains the implementaion of the papers . To duplicate the results reported in the paper, follow the subsequent steps in order.
 
 ## Clone the repository and change your current directory:
-'''
+```
 git clone https://github.com/fangyihaoo/EVNN.git
 cd EVNN
-'''
+```
 
 ## install the required packages
 ```
