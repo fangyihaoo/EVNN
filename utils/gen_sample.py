@@ -67,7 +67,37 @@ def allencahn(num: int = 1000,
         data = torch.from_numpy(lhs(2, num)*2 - 1).float().to(device)        # generate the interior points
         return data
     
+def meancur(num: int = 1000, 
+              boundary: bool = False, 
+              device: str ='cpu') -> Tensor:
+    """
+    Mean Curvature type problem (0, \infity)\times(-5, 5)^2
+    Boundary:  no B.C. here.
+    Interior: latin square sampling
+
+    Args:
+        num (int): number of points need to be sample. For interior points, the output would be 4\times number
+        boundary (bool): Boundary or Interior
+        device (str): cpu or gpu
+
+    Returns:
+        Tensor: Date coordinates tensor (N \times 2 or 4N \times 2)
+    """
     
+    if boundary:
+        tb = torch.cat((torch.rand(num, 1)*2 - 1, torch.tensor([1.]).repeat(num)[:,None]), dim=1)
+        bb = torch.cat((torch.rand(num, 1)*2 - 1, torch.tensor([-1.]).repeat(num)[:,None]), dim=1)
+        rb = torch.cat((torch.tensor([1.]).repeat(num)[:,None], torch.rand(num, 1)*2 - 1), dim=1)
+        lb = torch.cat((torch.tensor([-1.]).repeat(num)[:,None], torch.rand(num, 1)*2 - 1), dim=1)
+        data = torch.cat((tb, bb, rb, lb), dim=0)
+        data = data.to(device) 
+        return data
+    else:
+        # lhs(k,n) generates n*k samples on [0,1], https://github.com/tisimst/pyDOE/blob/master/pyDOE/doe_lhs.py
+        data = torch.from_numpy(5*(lhs(2, num)*2 - 1)).float().to(device)        # generate the interior points
+        return data
+            
+            
 def heatpinn(num: int = 1000, 
              data_type: str = 'boundary', 
              device: str = 'cpu') ->Tensor:
