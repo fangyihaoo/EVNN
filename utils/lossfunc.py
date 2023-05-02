@@ -133,15 +133,19 @@ def MeanCurLoss(model: Callable[...,Tensor],
     #output_b = model(dat_b)
     ux = torch.autograd.grad(outputs = output_i, inputs = dat_i, grad_outputs = torch.ones_like(output_i), retain_graph=True, create_graph=True)[0]
     #print(f'dat_i: {dat_i.shape} , output_i: {output_i.shape}, ux:{ux.shape}')
-    loss_i =  torch.mean(0.5 * torch.sum(torch.pow(ux, 2),dim=1,keepdim=True)) * 100
+    
+    #square of L2 norm
+    #loss_i =  torch.mean(0.5 * torch.sum(torch.pow(ux, 2),dim=1,keepdim=True)) * 100
+
+    #L2 norm
+    loss_i =  torch.mean(torch.norm(ux,dim=1,keepdim=True)) * 100
     
     #penalty term
-    lam = 10
+    lam = 1 
     loss_i += lam*torch.mean(torch.pow(torch.norm(ux,dim=1,keepdim=True)-1. ,2))*100
-    #loss_b = torch.mean(torch.pow(output_b,2))
-    tau = 0.002
+   
+    tau = 0.001
     loss_p = torch.mean(torch.pow(output_i - previous[0], 2)) * 100/(2*tau)
-    #loss_p += 50*torch.mean(torch.pow(output_b - previous[1], 2)) * 4
     #print(f'loss_i:{loss_i}, loss_p:{loss_p}')
 
     return loss_i + loss_p, loss_i
