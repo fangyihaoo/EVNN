@@ -17,16 +17,12 @@ conda activate evnn
 ```
 
 ## An example for solving Allen-Cahn equation:
-### Pretrain the model to fit the initial condition
 ```
+# Pretrain the model to fit the initial condition
 python3 utils/pretrain.py pretrain_Allen --max_epoch=10000 --lr=1e-2 --lr_decay=0.7 --step_size=5000
-```
-### Train EVNN
-```
+# Train EVNN
 python3 ./Tasks/AllenCahn.py train
-```
-### Plot the solution
-```
+# Plot the solution
 python3 utils/visualizer.py 
 ```
 ## An example for solving Willmore flow: 
