@@ -7,14 +7,19 @@ git clone https://github.com/fangyihaoo/EVNN.git
 cd EVNN
 ```
 
-## install the required packages
+## Create a new conda environment using the default environment.yml:
 ```
-pip3 install -r requirement.txt
+conda env create
+```
+## Activate the default environment:
+```
+conda activate evnn
 ```
 
 ## An example for solving Allen-Cahn equation:
-
-
+## Pretrain the model to fit the initial condition
+```
+python3 utils/pretrain.py pretrain_Allen --max_epoch=10000 --lr=1e-2 --lr_decay=0.7 --step_size=5000
 ## An example for solving Willmore flow: 
 
 ## Remark
