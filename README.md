@@ -9,11 +9,15 @@ cd EVNN
 
 ## Create a new conda environment using the default environment.yml:
 ```
-conda env create
+conda env create -f environment.yml
 ```
 ## Activate the default environment:
 ```
 conda activate evnn
+```
+## If you are using university clusters, add this path command to the end of .bashrc:
+```
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/.conda/envs/evnn/lib
 ```
 
 ## An example for solving Allen-Cahn equation:
